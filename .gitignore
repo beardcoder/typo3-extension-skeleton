@@ -1,0 +1,36 @@
+# Composer
+/vendor/
+composer.lock
+
+# Node
+/node_modules/
+package-lock.json
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# VitePress
+/dist/
+/docs/.vitepress/cache/
+/docs/.vitepress/dist/
+
+# Generated documentation
+/docs/generated/*.md
+
+# IDE
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# TYPO3
+.Build/
+typo3conf/
+
+# Logs
+*.log
+
+# OS
+Thumbs.db

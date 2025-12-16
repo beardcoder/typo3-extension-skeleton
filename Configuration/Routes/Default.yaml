@@ -1,0 +1,16 @@
+# TYPO3 Routing Configuration for Extension Skeleton
+
+# Example Route for Controller Actions
+example_index:
+  path: /example
+  type: plugin
+  defaults:
+    _controller: 'Vendor\ExtensionSkeleton\Controller\ExampleController::indexAction'
+
+example_show:
+  path: /example/{id}
+  type: plugin
+  defaults:
+    _controller: 'Vendor\ExtensionSkeleton\Controller\ExampleController::showAction'
+  requirements:
+    id: '\d+'

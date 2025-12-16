@@ -1,0 +1,48 @@
+/**
+ * Extension Skeleton Styles
+ */
+
+.extension-skeleton {
+    padding: 20px;
+}
+
+.extension-skeleton h1 {
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.extension-skeleton .lead {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.extension-skeleton .items-list {
+    margin-top: 20px;
+}
+
+.extension-skeleton .item-detail {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.extension-header {
+    background: #ff8700;
+    color: white;
+    padding: 10px 0;
+    margin-bottom: 30px;
+}
+
+.extension-header h2 {
+    margin: 0;
+    color: white;
+}
+
+.extension-footer {
+    margin-top: 50px;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+    color: #666;
+}

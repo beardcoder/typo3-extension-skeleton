@@ -1,0 +1,51 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+
+<f:layout name="Default" />
+
+<f:section name="Content">
+    <div class="extension-skeleton">
+        <h1>{title}</h1>
+
+        <p class="lead">
+            Found {count} items in the example extension.
+        </p>
+
+        <div class="items-list">
+            <f:if condition="{items}">
+                <f:then>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Created</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <f:for each="{items}" as="item">
+                                <tr>
+                                    <td>{item.id}</td>
+                                    <td>{item.title}</td>
+                                    <td>{item.description}</td>
+                                    <td><f:format.date format="d.m.Y H:i">{item.created}</f:format.date></td>
+                                    <td>
+                                        <f:link.action action="show" arguments="{id: item.id}" class="btn btn-primary btn-sm">
+                                            View Details
+                                        </f:link.action>
+                                    </td>
+                                </tr>
+                            </f:for>
+                        </tbody>
+                    </table>
+                </f:then>
+                <f:else>
+                    <p class="alert alert-info">No items found.</p>
+                </f:else>
+            </f:if>
+        </div>
+    </div>
+</f:section>
+
+</html>
