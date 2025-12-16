@@ -24,7 +24,7 @@ install:
 ## docs: Generates documentation from PHPDoc
 docs:
 	@echo "📝 Generating documentation from PHPDoc..."
-	php Build/PhpDocGenerator.php
+	composer run docs:generate
 	@echo "✅ Documentation generated!"
 
 ## docs-serve: Starts the VitePress dev server

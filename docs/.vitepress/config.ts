@@ -1,105 +1,184 @@
-import { defineConfig } from 'vitepress'
-import { readdirSync } from 'fs'
-import { join } from 'path'
+import { defineConfig } from "vitepress";
+import { readdirSync, statSync } from "fs";
+import { join } from "path";
 
 /**
- * VitePress Configuration für TYPO3 Extension Skeleton
+ * VitePress Configuration for TYPO3 Extension Skeleton
  *
- * Diese Konfiguration wird automatisch geladen und generiert
- * die Sidebar-Navigation aus den generierten Markdown-Dateien.
+ * This configuration is automatically loaded and generates
+ * the sidebar navigation from the generated Markdown files.
  */
 
 /**
- * Generiert Sidebar-Items aus dem generated Verzeichnis
+ * Recursive function to scan directories and create sidebar items
  */
-function getGeneratedDocsItems() {
-  const generatedPath = join(__dirname, '../generated')
+function getSidebarItems(dir: string, basePath: string = ""): any[] {
+  try {
+    const items: any[] = [];
+    const files = readdirSync(dir);
+
+    // Sort files and folders
+    const sorted = files.sort((a, b) => {
+      const aPath = join(dir, a);
+      const bPath = join(dir, b);
+      const aIsDir = statSync(aPath).isDirectory();
+      const bIsDir = statSync(bPath).isDirectory();
+
+      // Folders first, then alphabetically
+      if (aIsDir && !bIsDir) return -1;
+      if (!aIsDir && bIsDir) return 1;
+      return a.localeCompare(b);
+    });
+
+    for (const file of sorted) {
+      const filePath = join(dir, file);
+      const stat = statSync(filePath);
+      const relativePath = basePath ? `${basePath}/${file}` : file;
+
+      if (stat.isDirectory()) {
+        // Recursively scan subdirectories
+        const children = getSidebarItems(filePath, relativePath);
+        if (children.length > 0) {
+          items.push({
+            text: file,
+            collapsed: false,
+            items: children,
+          });
+        }
+      } else if (file.endsWith(".md")) {
+        // Add markdown file to sidebar
+        const name = file.replace(".md", "");
+        items.push({
+          text: name,
+          link: `/classes/${relativePath.replace(".md", "")}`,
+        });
+      }
+    }
+
+    return items;
+  } catch (err) {
+    console.log(
+      "Generated docs not yet available, run: composer docs:generate"
+    );
+    return [];
+  }
+}
+
+/**
+ * Generates the complete sidebar structure
+ */
+function generateSidebar() {
+  const classesPath = join(__dirname, "../classes");
 
   try {
-    const files = readdirSync(generatedPath)
-
-    return files
-      .filter(file => file.endsWith('.md') && file !== 'index.md')
-      .map(file => {
-        const name = file.replace('.md', '').replace(/_/g, '\\')
-        return {
-          text: name.split('\\').pop() || name,
-          link: `/generated/${file.replace('.md', '')}`
-        }
-      })
-      .sort((a, b) => a.text.localeCompare(b.text))
+    return [
+      {
+        text: "Overview",
+        items: [
+          { text: "Home", link: "/" },
+          { text: "API Overview", link: "/Home" },
+        ],
+      },
+      {
+        text: "Classes",
+        collapsed: false,
+        items: getSidebarItems(classesPath),
+      },
+    ];
   } catch (err) {
-    console.log('Generated docs not yet available, run: composer docs:generate')
-    return []
+    return [
+      {
+        text: "Overview",
+        items: [
+          { text: "Home", link: "/" },
+          { text: "API Overview", link: "/Home" },
+        ],
+      },
+    ];
   }
 }
 
 export default defineConfig({
-  title: 'TYPO3 Extension Skeleton',
-  description: 'Auto-generated documentation for TYPO3 v13 Extension Skeleton',
+  title: "TYPO3 Extension Skeleton",
+  description: "Auto-generated documentation for TYPO3 v13 Extension Skeleton",
 
   // Theme config
   themeConfig: {
-    logo: '/logo.svg',
+    logo: "/logo.svg",
 
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'API Docs', link: '/generated/index' },
-      { text: 'GitHub', link: 'https://github.com/yourusername/typo3-extension-skeleton' }
+      { text: "Home", link: "/" },
+      { text: "API Overview", link: "/Home" },
+      {
+        text: "GitHub",
+        link: "https://github.com/beardcoder/typo3-extension-skeleton",
+      },
     ],
 
-    sidebar: [
-      {
-        text: 'Introduction',
-        items: [
-          { text: 'Getting Started', link: '/getting-started' },
-          { text: 'Installation', link: '/installation' }
-        ]
-      },
-      {
-        text: 'API Documentation',
-        items: [
-          { text: 'Overview', link: '/generated/index' },
-          { text: 'Complete Reference', link: '/generated/api-reference' }
-        ]
-      },
-      {
-        text: 'Classes',
-        items: getGeneratedDocsItems(),
-        collapsed: false
-      }
-    ],
+    sidebar: generateSidebar(),
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/yourusername/typo3-extension-skeleton' }
+      {
+        icon: "github",
+        link: "https://github.com/beardcoder/typo3-extension-skeleton",
+      },
     ],
 
+    // Outline in sidebar
+    outline: {
+      level: [2, 3],
+      label: "On this page",
+    },
+
+    // Documentation footer navigation
+    docFooter: {
+      prev: "Previous page",
+      next: "Next page",
+    },
+
+    // Dark mode label
+    darkModeSwitchLabel: "Appearance",
+    sidebarMenuLabel: "Menu",
+    returnToTopLabel: "Return to top",
+
     search: {
-      provider: 'local'
+      provider: "local",
     },
 
     footer: {
-      message: 'Released under the GPL-2.0-or-later License.',
-      copyright: 'Copyright © 2025 TYPO3 Extension Skeleton'
-    }
+      message: "Released under the GPL-2.0-or-later License.",
+      copyright: "Copyright © 2025 TYPO3 Extension Skeleton",
+    },
   },
 
   // Markdown config
   markdown: {
     lineNumbers: true,
     theme: {
-      light: 'github-light',
-      dark: 'github-dark'
-    }
+      light: "github-light",
+      dark: "github-dark",
+    },
   },
 
   // Build config
-  outDir: '../dist',
-  cacheDir: '../.vitepress/cache',
+  outDir: "./.vitepress/dist",
+  cacheDir: "./.vitepress/cache",
 
   // Last updated
   lastUpdated: true,
 
   // Clean URLs
-  cleanUrls: true
-})
+  cleanUrls: true,
+
+  // Ignore dead links to external classes
+  ignoreDeadLinks: [
+    // Ignore links to PHP standard exceptions
+    /RuntimeException/,
+    /InvalidArgumentException/,
+    /Exception/,
+    // Ignore links to TYPO3 core classes
+    /TYPO3\/CMS\//,
+    // Ignore any relative paths that go up multiple levels (external class references)
+    /\.\.\/\.\.\/\.\.\//,
+  ],
+});

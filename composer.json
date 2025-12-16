@@ -1,33 +1,46 @@
 {
-    "name": "vendor/typo3-extension-skeleton",
-    "type": "typo3-cms-extension",
-    "description": "TYPO3 v13 Extension Skeleton with Auto-Documentation",
-    "license": "GPL-2.0-or-later",
-    "require": {
-        "php": "^8.2",
-        "typo3/cms-core": "^13.0",
-        "typo3/cms-extbase": "^13.0",
-        "typo3/cms-fluid": "^13.0"
-    },
-    "require-dev": {
-        "phpstan/phpstan": "^1.10",
-        "friendsofphp/php-cs-fixer": "^3.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "Vendor\\ExtensionSkeleton\\": "Classes/"
-        }
-    },
-    "extra": {
-        "typo3/cms": {
-            "extension-key": "extension_skeleton"
-        }
-    },
-    "scripts": {
-        "docs:generate": "php Build/PhpDocGenerator.php",
-        "docs:dev": "cd docs && npm run docs:dev",
-        "docs:build": "cd docs && npm run docs:build",
-        "phpstan": "phpstan analyse Classes",
-        "cs-fix": "php-cs-fixer fix"
+  "name": "vendor/typo3-extension-skeleton",
+  "type": "typo3-cms-extension",
+  "description": "TYPO3 v13 Extension Skeleton with Auto-Documentation",
+  "license": "GPL-2.0-or-later",
+  "require": {
+    "php": "^8.2",
+    "typo3/cms-core": "^13.0",
+    "typo3/cms-extbase": "^13.0",
+    "typo3/cms-fluid": "^13.0"
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.10",
+    "friendsofphp/php-cs-fixer": "^3.0",
+    "phpdocumentor/shim": "^3.9",
+    "saggre/phpdocumentor-markdown": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Vendor\\ExtensionSkeleton\\": "Classes/"
     }
+  },
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "extension_skeleton",
+      "app-dir": ".Build",
+      "web-dir": ".Build/web"
+    }
+  },
+  "scripts": {
+    "docs:generate": "phpdoc",
+    "docs:dev": "cd docs && npm run docs:dev",
+    "docs:build": "cd docs && npm run docs:build",
+    "phpstan": "phpstan analyse Classes",
+    "cs-fix": "php-cs-fixer fix"
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin",
+    "allow-plugins": {
+      "typo3/class-alias-loader": true,
+      "typo3/cms-composer-installers": true,
+      "phpdocumentor/shim": true
+    }
+  }
 }

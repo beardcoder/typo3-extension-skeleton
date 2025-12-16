@@ -1,6 +1,7 @@
 {
   "name": "typo3-extension-skeleton",
   "version": "1.0.0",
+  "type": "module",
   "description": "TYPO3 v13 Extension Skeleton with Auto-Documentation",
   "scripts": {
     "docs:dev": "vitepress dev docs",
