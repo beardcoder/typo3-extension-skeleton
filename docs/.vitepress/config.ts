@@ -101,6 +101,7 @@ function generateSidebar() {
 export default defineConfig({
   title: "TYPO3 Extension Skeleton",
   description: "Auto-generated documentation for TYPO3 v13 Extension Skeleton",
+  base: "/typo3-extension-skeleton/",
 
   // Theme config
   themeConfig: {
