@@ -21,9 +21,9 @@ install:
 	npm install
 	@echo "✅ Dependencies installed!"
 
-## docs: Generates documentation from PHPDoc
+## docs: Generates documentation with phpDocumentor
 docs:
-	@echo "📝 Generating documentation from PHPDoc..."
+	@echo "📝 Generating documentation with phpDocumentor..."
 	composer run docs:generate
 	@echo "✅ Documentation generated!"
 
@@ -81,7 +81,7 @@ setup: install docs
 	@echo "Next steps:"
 	@echo "  1. Run 'make docs-serve' to view the documentation"
 	@echo "  2. Customize the extension for your needs"
-	@echo "  3. Run 'make docs' after changing PHPDoc comments"
+	@echo "  3. Run 'make docs' after updating documentation comments"
 	@echo ""
 
 ## dev: Starts development mode (watch + serve)

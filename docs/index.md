@@ -4,7 +4,7 @@ layout: home
 hero:
     name: TYPO3 Extension Skeleton
     text: Modern TYPO3 v13 Extension
-    tagline: With automatic PHPDoc documentation and best practices
+    tagline: With phpDocumentor integration and best practices
     actions:
         - theme: brand
           text: API Overview
@@ -15,8 +15,8 @@ hero:
 
 features:
     - icon: 📚
-      title: Automatic Documentation
-      details: PHPDoc comments are automatically converted into comprehensive documentation
+      title: phpDocumentor Integration
+      details: Generate comprehensive API documentation using phpDocumentor
     - icon: ⚡
       title: TYPO3 v13
       details: Ready for TYPO3 v13 with PSR-15 Middlewares and modern Extbase
@@ -45,14 +45,14 @@ composer require vendor/typo3-extension-skeleton
 ### Generate Documentation
 
 ```bash
-# Generate PHPDoc documentation
+# Generate phpDocumentor documentation
 composer docs:generate
 
 # Start development server
-composer docs:dev
+npm run docs:dev
 
 # Create production build
-composer docs:build
+npm run docs:build
 ```
 
 ### Code Quality
