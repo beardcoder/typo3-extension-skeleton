@@ -5,6 +5,7 @@
 [![TYPO3](https://img.shields.io/badge/TYPO3-v13-orange.svg)](https://get.typo3.org/version/13)
 [![PHP](https://img.shields.io/badge/PHP-8.2+-blue.svg)](https://www.php.net/)
 [![License](https://img.shields.io/badge/license-GPL--2.0--or--later-green.svg)](LICENSE)
+[![Deploy Docs](https://github.com/yourusername/typo3-extension-skeleton/workflows/Deploy%20Documentation%20to%20GitHub%20Pages/badge.svg)](https://github.com/yourusername/typo3-extension-skeleton/actions)
 
 ## ✨ Features
 
@@ -192,6 +193,25 @@ make test           # Runs tests
 make setup          # Complete setup
 ```
 
+## 🚀 CI/CD - GitHub Actions
+
+### Automatic Documentation Deployment
+
+The repository includes GitHub Actions workflows for automatic documentation generation and deployment:
+
+**On Push to Main/Master:**
+- Automatically generates docs from PHPDoc
+- Builds VitePress static site
+- Deploys to GitHub Pages
+
+**On Pull Requests:**
+- Generates documentation preview
+- Creates downloadable artifact
+- Comments on PR with status
+
+**Setup Instructions:**
+See [.github/SETUP_GITHUB_PAGES.md](.github/SETUP_GITHUB_PAGES.md) for detailed setup guide.
+
 ## 📚 Usage in TYPO3
 
 ### As Composer Package
@@ -276,6 +296,18 @@ The complete documentation is automatically generated and available at:
 - **Installation** - Integration in TYPO3
 - **API Documentation** - Auto-generated class docs
 - **Complete Reference** - Full API overview
+
+### GitHub Pages Deployment
+
+Documentation is automatically deployed to GitHub Pages via GitHub Actions:
+
+1. **Enable GitHub Pages**: See [Setup Guide](.github/SETUP_GITHUB_PAGES.md)
+2. **Automatic Deployment**: Triggered on push to `main`/`master`
+3. **PR Previews**: Built on pull requests for review
+
+**Workflows:**
+- `.github/workflows/deploy-docs.yml` - Deploys to GitHub Pages
+- `.github/workflows/preview-docs.yml` - Builds preview for PRs
 
 ## 🔧 Customization
 

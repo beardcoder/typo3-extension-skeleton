@@ -1,0 +1,62 @@
+name: Preview Documentation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - master
+    paths:
+      - 'Classes/**'
+      - 'docs/**'
+      - 'Build/PhpDocGenerator.php'
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, json
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --no-progress --no-interaction
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Generate documentation from PHPDoc
+        run: php Build/PhpDocGenerator.php
+
+      - name: Build VitePress documentation
+        run: npm run docs:build
+
+      - name: Upload preview artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-preview
+          path: ./dist
+          retention-days: 7
+
+      - name: Comment on PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '📝 Documentation preview has been built successfully! Download the artifact to view it locally.'
+            })

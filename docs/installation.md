@@ -173,56 +173,33 @@ return [
 ];
 ```
 
-## Dokumentation deployen
+## Deploy Documentation
 
-### GitHub Pages
+### GitHub Pages (Automatic)
 
-1. **GitHub Actions Workflow** (`.github/workflows/docs.yml`):
+This repository includes pre-configured GitHub Actions workflows for automatic deployment:
 
-```yaml
-name: Deploy Docs
+1. **Enable GitHub Pages**:
+   - Go to repository Settings → Pages
+   - Under "Build and deployment"
+   - Source: Select **"GitHub Actions"**
+   - Save
 
-on:
-  push:
-    branches: [main]
+2. **Automatic Deployment**:
+   - Push to `main` or `master` branch
+   - Workflow automatically:
+     - Generates docs from PHPDoc
+     - Builds VitePress site
+     - Deploys to GitHub Pages
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+3. **Access Documentation**:
+   - `https://[username].github.io/[repository]/`
 
-      - name: Setup Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
+**Full Setup Guide**: See [.github/SETUP_GITHUB_PAGES.md](../.github/SETUP_GITHUB_PAGES.md)
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-
-      - name: Install dependencies
-        run: |
-          composer install
-          npm install
-
-      - name: Generate docs
-        run: composer docs:generate
-
-      - name: Build docs
-        run: npm run docs:build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-```
-
-2. **GitHub Pages aktivieren**:
-   - Repository Settings → Pages
-   - Source: "gh-pages" branch
+**Workflows Included**:
+- `.github/workflows/deploy-docs.yml` - Production deployment
+- `.github/workflows/preview-docs.yml` - PR previews
 
 ### Eigener Server
 
